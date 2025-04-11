@@ -1,16 +1,23 @@
 import pygame
 
 class App:
-    def __init__(self, w, h, caption="Title", flags = 0):
+    def __init__(self, w, h, caption="Title", flags = 0, fullscreen = False):
         """Initialize PyGame window"""
         pygame.init()
         self.info = pygame.display.Info()
-        self.screen = pygame.display.set_mode([w, h], flags)
+        if fullscreen:
+            self.set_fullscreen()
+        else:
+            self.screen = pygame.display.set_mode([w, h], flags)
         pygame.display.set_caption(caption)
 
     def set_window(self, w, h):
         """Change Window resolution"""
         self.screen = pygame.display.set_mode([w, h])
+
+    def set_title(self, title):
+        """Change the Title of the window"""
+        pygame.display.set_caption(title)
     
     def set_fullscreen(self):
         """Set window to full screen"""
