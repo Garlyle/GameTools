@@ -39,6 +39,8 @@ class Config:
             dict[key] = self.config.get(name, key)
             if dict[key].isnumeric():
                 dict[key] = int(dict[key])
+            elif dict[key] in ('True', 'False'):
+                dict[key] = (dict[key] == 'True')
         return dict
     
     def set(self, name, value):
