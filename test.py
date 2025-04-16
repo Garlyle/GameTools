@@ -2,6 +2,7 @@ import pygame
 from src.App import App
 from src.Config import *
 from src.Text import *
+from src.Panorama import *
 
 import pygame.freetype
 import json
@@ -38,6 +39,11 @@ font.origin = True
 font.antialiased = False
 text = Text(font, msg, (0,0), instant=False, size=(320, 720))
 
+# Panorama background
+pan_file = os.path.join(main_dir, "resources", "water.png")
+pan_image = pygame.image.load(pan_file)
+panorama = Panorama(pan_file, app.screen.size, (-20,-10))
+
 # Main Loop
 while running:
     # Handle Events
@@ -70,10 +76,12 @@ while running:
         
         # Update
         rgb[index] = max(0, min(rgb[index], 255))
+        panorama.update(delta)
         text.update()
 
         # Render
         app.clear(rgb)
+        app.draw(panorama, panorama.get_rect())
         app.draw(text, text.text_surf_rect)
 
         app.render()
