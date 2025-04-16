@@ -1,6 +1,10 @@
 import pygame
 from src.App import App
 from src.Config import *
+from src.Text import *
+
+import pygame.freetype
+import json
 
 # Config
 config = Config()
@@ -18,6 +22,21 @@ running = True
 focused = True
 delta = 0.0
 main_dir = os.path.split(os.path.abspath(__file__))[0]
+
+# JSON
+json_path = os.path.join(main_dir, "resources", "data", "heroes.json")
+data_heroes = []
+with open(json_path) as f:
+    data_heroes = json.load(f)
+print(data_heroes)
+print(data_heroes[0]["name"])
+
+# Text Rendering
+msg = "You've got \\C[#FFFF00]\\V[1] message\\C[#FFFFFF], \\N[0]"
+font = pygame.freetype.Font(None, 32)
+font.origin = True
+font.antialiased = False
+text = Text(font, msg, (0,0), instant=False, size=(320, 720))
 
 # Main Loop
 while running:
@@ -51,9 +70,12 @@ while running:
         
         # Update
         rgb[index] = max(0, min(rgb[index], 255))
+        text.update()
 
         # Render
         app.clear(rgb)
+        app.draw(text, text.text_surf_rect)
+
         app.render()
     delta = clock.tick(settings['fps']) / 1000
 

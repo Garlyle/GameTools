@@ -32,6 +32,12 @@ class App:
         self.screen.blit(source = sprite.image, 
             dest = dest,
             area = area)
+    
+    def draw(self, surface: pygame.Surface, dest = None, area = None):
+        """Draw a Surface to screen"""
+        self.screen.blit(source = surface, 
+            dest = dest,
+            area = area)
 
     def render(self):
         """Render display surface to screen"""
