@@ -82,8 +82,8 @@ while running:
 
         # Render
         app.clear(rgb)
-        app.draw(panorama, panorama.get_rect())
-        app.draw(text, text.text_surf_rect)
+        app.draw(panorama)
+        app.draw(text)
 
         app.render()
     delta = clock.tick(settings['fps']) / 1000

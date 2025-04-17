@@ -23,20 +23,20 @@ class Text(pygame.Surface):
         self.metrics = font.get_metrics(self.text)
         self.instant = instant
         # size
-        self.text_surf_rect = font.get_rect(self.text)
+        self.rect = font.get_rect(self.text)
         if size is None:
-            self.text_surf_rect.w += shadow
-            self.text_surf_rect.h += shadow
+            self.rect.w += shadow
+            self.rect.h += shadow
         else:
-            self.text_surf_rect.w = size[0]
-            self.text_surf_rect.h = size[1]
-        super().__init__(self.text_surf_rect.size)
+            self.rect.w = size[0]
+            self.rect.h = size[1]
+        super().__init__(self.rect.size)
         self.fill(COLOR_TRANS)
         self.set_colorkey(COLOR_TRANS)
         # position
-        self.x = self.text_surf_rect.x
-        self.y = self.text_surf_rect.y
-        self.text_surf_rect.topleft = position
+        self.x = self.rect.x
+        self.y = self.rect.y
+        self.rect.topleft = position
 
     def re_color(self, m: re.Match):
         """RegEx helper function to change color values"""
@@ -80,7 +80,7 @@ class Text(pygame.Surface):
     def word_wrap(self):
         """Moves to the next line if the next word won't fit"""
         bounds = self.font.get_rect(self.words[self.word_idx])
-        if self.x + bounds.width > self.text_surf_rect.width:
+        if self.x + bounds.width > self.rect.width:
             self.new_line()
 
     def new_line(self):

@@ -27,16 +27,10 @@ class App:
         """Clear the screen to color (default: black)"""
         self.screen.fill(color)
 
-    def draw(self, sprite: pygame.sprite.Sprite, dest = None, area = None):
-        """Draw a Sprite to screen"""
-        self.screen.blit(source = sprite.image, 
-            dest = dest,
-            area = area)
-    
     def draw(self, surface: pygame.Surface, dest = None, area = None):
         """Draw a Surface to screen"""
         self.screen.blit(source = surface, 
-            dest = dest,
+            dest = dest if dest else surface.get_rect(),
             area = area)
 
     def render(self):
