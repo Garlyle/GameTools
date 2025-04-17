@@ -48,7 +48,6 @@ class Text(pygame.Surface):
         text = re.sub(r"\\V\[(\d+)\]", lambda m: str(data_vars[int(m.group(1))]), text)
         text = re.sub(r"\\V\[(\d+)\]", lambda m: str(data_vars[int(m.group(1))]), text)
         text = re.sub(r"\\N\[(\d+)\]", lambda m: data_heroes[int(m.group(1))]["name"], text)
-        # extract color conversions
         text = re.sub(r"\\C\[(#[A-F0-9]{6})\]", self.re_color, text)
         return text
     
@@ -56,23 +55,31 @@ class Text(pygame.Surface):
         """Draw one character each update, or display them instantly"""
         if self.instant:
             while self.letter_idx < len(self.text):
-                self.draw_letter()
+                self.draw_next_letter()
         elif self.letter_idx < len(self.text):
-            self.draw_letter()
+            self.draw_next_letter()
     
-    def draw_letter(self):
+    def draw_next_letter(self):
         """Handles drawing of a single letter"""
-        # check for color change
+        letter = self.text[self.letter_idx]
+        self.check_color_change()
+        self.draw_letter(letter)
+        self.advance_letter(letter)
+
+    def check_color_change(self):
+        """set text color if color conversion was scanned for position"""
         if self.letter_idx in self.data_color:
             self.color = self.data_color[self.letter_idx]
-        # render the single letter
-        letter = self.text[self.letter_idx]
+    
+    def draw_letter(self, letter):
+        """draw a single letter with shadow"""
         self.font.render_to(self, (self.x + shadow, self.y + shadow), letter, 'black')
         self.font.render_to(self, (self.x, self.y), letter, self.color)
-        # and move the start position
+
+    def advance_letter(self, letter):
+        """moves to next letter and check if next word can fit in the same line"""
         self.x += self.metrics[self.letter_idx][M_ADV_X]
         self.letter_idx += 1
-        # check for end of line
         if letter == ' ':
             self.word_idx += 1
             self.word_wrap()

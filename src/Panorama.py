@@ -10,7 +10,6 @@ class Panorama(pygame.Surface):
         self.resize(size)
         self.speed = speed
         self.position = pygame.Vector2(0,0)
-        print(self.image.width, self.image.height)
 
     def update(self, delta):
         """calculates movement over time"""
@@ -21,6 +20,7 @@ class Panorama(pygame.Surface):
         self.position.y -= int(self.position.y)
 
     def resize(self, size):
+        """Change the given size for rendering"""
         xcoords = np.arange(0, size[0], step = self.image.width)
         ycoords = np.arange(0, size[1], step = self.image.height)
         super().__init__((self.image.width * len(xcoords), self.image.height * len(ycoords)))
