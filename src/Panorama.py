@@ -7,6 +7,20 @@ class Panorama(pygame.Surface):
     def __init__(self, filename, size, speed=(0,0)):
         """Creates a continuous image for given size, scrolls with given speed"""
         self.image = pygame.image.load(filename)
+        self.resize(size)
+        self.speed = speed
+        self.position = pygame.Vector2(0,0)
+        print(self.image.width, self.image.height)
+
+    def update(self, delta):
+        """calculates movement over time"""
+        self.position.x += self.speed[0] * delta
+        self.position.y += self.speed[1] * delta
+        self.scroll(int(self.position.x), int(self.position.y), pygame.SCROLL_REPEAT)
+        self.position.x -= int(self.position.x)
+        self.position.y -= int(self.position.y)
+
+    def resize(self, size):
         xcoords = np.arange(0, size[0], step = self.image.width)
         ycoords = np.arange(0, size[1], step = self.image.height)
         super().__init__((self.image.width * len(xcoords), self.image.height * len(ycoords)))
@@ -17,13 +31,3 @@ class Panorama(pygame.Surface):
         renderlist = list(zip(imgarray, allcoords))
 
         self.blits(renderlist)
-        self.speed = speed
-        self.position = pygame.Vector2(0,0)
-
-    def update(self, delta):
-        """calculates movement over time"""
-        self.position.x += self.speed[0] * delta
-        self.position.y += self.speed[1] * delta
-        self.scroll(int(self.position.x), int(self.position.y), pygame.SCROLL_REPEAT)
-        self.position.x -= int(self.position.x)
-        self.position.y -= int(self.position.y)

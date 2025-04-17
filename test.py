@@ -41,7 +41,6 @@ text = Text(font, msg, (0,0), instant=False, size=(320, 720))
 
 # Panorama background
 pan_file = os.path.join(main_dir, "resources", "water.png")
-pan_image = pygame.image.load(pan_file)
 panorama = Panorama(pan_file, app.screen.size, (-20,-10))
 
 # Main Loop
@@ -63,8 +62,10 @@ while running:
                 index = index-1 if (index - 1 >= 0) else 2
             if event.key == pygame.K_1:
                 app.set_window(settings['width'], settings['height'])
+                panorama.resize(app.screen.get_size())
             if event.key == pygame.K_2:
                 app.set_fullscreen()
+                panorama.resize(app.screen.get_size())
             if event.key == pygame.K_F12:
                 app.make_screenshot()
     if focused:
