@@ -6,6 +6,18 @@ M_ADV_X = 4
 COLOR_TRANS = pygame.Color(0, 80, 0, 128)
 shadow = 2
 
+
+""" Usage example
+    font = pygame.freetype.Font(None, 32)
+    font.origin = True
+    font.antialiased = False
+    msg = "You've got \\C[#FFFF00]\\V[1] message\\C[#FFFFFF], \\N[0]"
+    text = Text(font, msg, (0,0), instant=False, size=(320, 720))
+
+    text.update()
+    app.draw(text)
+"""
+
 # Temp
 data_vars = [1, 2]
 data_heroes = [{'name': 'Bearr'}, {'name': 'NiiQ'}, {'name': 'Garlyle'}]
@@ -28,8 +40,7 @@ class Text(pygame.Surface):
             self.rect.w += shadow
             self.rect.h += shadow
         else:
-            self.rect.w = size[0]
-            self.rect.h = size[1]
+            self.rect = pygame.Rect(self.rect.topleft, size)
         super().__init__(self.rect.size)
         self.fill(COLOR_TRANS)
         self.set_colorkey(COLOR_TRANS)

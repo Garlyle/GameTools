@@ -1,6 +1,15 @@
 import numpy as np
 import pygame
 
+"""Usage example
+    pan_file = os.path.join(main_dir, "resources", "water.png")
+    panorama = Panorama(pan_file, app.screen.size, (-20,-10))
+
+    panorama.resize(app.screen.get_size())
+    panorama.update(delta)
+    app.draw(panorama)
+"""
+
 class Panorama(pygame.Surface):
     """Scrolling background image"""
 
